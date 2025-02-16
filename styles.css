@@ -57,19 +57,84 @@ body{
 
 
 
+/* Start with a small container */
 .container {
     position: relative;
     width: 400px;
-    height: 100px;
+    min-height: 80px; /* Small initially */
     background: rgba(245, 245, 245, 0.1);
-    backdrop-filter: blur(30px);
+    backdrop-filter: blur(20px);
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 16px;
     padding: 20px;
     color: #fff;
-    transition: height 0.6s ease;
-    margin-top: 80px; /* Pushes container down below the header */
+    transition: all 0.6s ease-in-out; /* Smooth transition */
+    margin-top: 80px;
+    overflow: hidden; /* Prevent layout breaking */
 }
+
+/* Expands when weather details are loaded */
+.container.expanded {
+    min-height: 450px;
+    width: 450px;
+}
+
+/* Hide weather details initially */
+.weather-box,
+.weather-details,
+.not-found {
+    display: none;
+}
+
+/* Show weather details after search */
+.weather-box.active,
+.weather-details.active,
+.not-found.active {
+    display: block;
+}
+
+/* Center loading animation */
+.loading {
+    display: none;
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    margin-top: 20px;
+}
+
+/* Loader animation */
+.loading::after {
+    content: "Loading...";
+    display: inline-block;
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+    0% { content: "Loading"; }
+    25% { content: "Loading."; }
+    50% { content: "Loading.."; }
+    75% { content: "Loading..."; }
+}
+
+/* Make website responsive */
+@media (min-width: 768px) {
+    .container {
+        width: 500px;
+    }
+    .container.expanded {
+        width: 550px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .container {
+        width: 600px;
+    }
+    .container.expanded {
+        width: 650px;
+    }
+}
+
 
 
 .search-box{
@@ -149,8 +214,18 @@ body{
     transition-delay: .6s;
 }
 
-.weather-box img{
-    width: 60%;
+.weather-box img {
+    width: 100px; /* Adjust width */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 50%; /* Prevent stretching */
+    display: block;
+    margin: 10px auto; /* Center image */
+}
+
+.weather .weather-icon {
+    width: 80px;
+    height: 80px;
+    margin-left: 10px;
 }
 .weather-box .temperature{
     position: relative;
@@ -224,10 +299,17 @@ body{
     left: 0;
     width: 100%;
     text-align: center;
-    margin-top: 110px;
+    margin-top: 20px;
+    display: none;
+}
+.not-found.active {
+    display: block; /* Show when search fails */
 }
 .not-found img{
-    width:  65%;
+    width:  150px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 .not-found p{
     font-size: 22px;
