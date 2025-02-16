@@ -14,8 +14,9 @@ body{
     min-height: 100vh;
     background-image: url(images/weather.jpg);
     background-size:cover;
-    background-position: center;
+    background-position: center;    
 }
+
 .header {
     display: flex;
     justify-content: flex-start; /* Aligns content to the left */
