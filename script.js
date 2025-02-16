@@ -1,3 +1,17 @@
+const headerText = document.querySelector('.header h1');
+const shakeSound = document.getElementById('shakeSound');
+
+headerText.addEventListener('mouseenter', () => {
+    shakeSound.currentTime = 0; // Reset audio to start
+    shakeSound.play();
+});
+
+headerText.addEventListener('mouseleave', () => {
+    shakeSound.pause(); // Pause the audio
+    shakeSound.currentTime = 0; // Reset audio to start position
+});
+
+
 const container = document.querySelector('.container');
 const searchInput = document.getElementById('search-btn');
 const searchButton = document.querySelector('.search-box button');
