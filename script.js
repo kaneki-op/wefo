@@ -1,5 +1,6 @@
 const headerText = document.querySelector('.header h1');
 const shakeSound = document.getElementById('shakeSound');
+const APIKey = "e58b94c4d9196f57fb7b743de5e682a8";
 
 headerText.addEventListener('mouseenter', () => {
     shakeSound.currentTime = 0; // Reset audio to start
@@ -99,5 +100,64 @@ searchButton.addEventListener('click', () => {
 searchInput.addEventListener('keypress', (event) => {
     if (event.key === "Enter") {
         fetchWeather(searchInput.value);
+    }
+});
+
+const searchBox = document.querySelector('.search-box');
+const searchResults = document.createElement('ul');
+searchResults.classList.add('autocomplete-results');
+searchBox.appendChild(searchResults); // Ensure it's inside search-box but positioned correctly
+
+// Initially hide dropdown
+searchResults.style.display = "none";
+
+// Fetch city suggestions
+function getCitySuggestions(query) {
+    if (query.length < 2) {
+        searchResults.innerHTML = "";
+        searchResults.style.display = "none"; // Hide dropdown if no input
+        return;
+    }
+
+    fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${APIKey}`)
+        .then(response => response.json())
+        .then(data => {
+            searchResults.innerHTML = ""; // Clear previous results
+
+            if (data.length === 0) {
+                searchResults.style.display = "none"; // Hide dropdown if no results
+                return;
+            }
+
+            // Show suggestions
+            data.forEach(city => {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${city.name}, ${city.country}`;
+                listItem.addEventListener("click", () => {
+                    searchInput.value = city.name;
+                    searchResults.innerHTML = ""; // Clear dropdown
+                    searchResults.style.display = "none"; // Hide dropdown
+                    fetchWeather(city.name);
+                });
+                searchResults.appendChild(listItem);
+            });
+
+            searchResults.style.display = "block"; // Show dropdown when results exist
+        })
+        .catch(error => {
+            console.error("Error fetching city suggestions:", error);
+            searchResults.style.display = "none"; // Hide dropdown on error
+        });
+}
+
+// Show dropdown when typing
+searchInput.addEventListener("input", () => {
+    getCitySuggestions(searchInput.value);
+});
+
+// Hide dropdown when clicking outside
+document.addEventListener("click", (event) => {
+    if (!searchBox.contains(event.target)) {
+        searchResults.style.display = "none";
     }
 });

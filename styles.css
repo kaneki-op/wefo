@@ -70,7 +70,8 @@ body{
     color: #fff;
     transition: all 0.6s ease-in-out; /* Smooth transition */
     margin-top: 80px;
-    overflow: hidden; /* Prevent layout breaking */
+    overflow: visible; /* Prevent layout breaking */
+    z-index: 10;
 }
 
 /* Expands when weather details are loaded */
@@ -143,6 +144,7 @@ body{
     height: 55px;
     display: flex;
     align-items: center;
+    z-index: 100;
 }
 .search-box i{
     position: absolute;
@@ -171,6 +173,50 @@ body{
     color: #fff;
     text-transform: capitalize;
 }
+.autocomplete-results {
+    position: absolute;
+    top: calc(100% + 5px); /* Place below input */
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    list-style: none;
+    padding: 5px 0;
+    margin: 0;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    display: none; /* Hide by default */
+}
+
+/* Show dropdown only when it has items */
+.autocomplete-results.show {
+    display: block;
+}
+
+
+
+/* Style individual suggestion items */
+.autocomplete-results li {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background 0.3s ease;
+}
+
+/* Last item should not have a border */
+.autocomplete-results li:last-child {
+    border-bottom: none;
+}
+
+/* Highlight suggestion on hover */
+.autocomplete-results li:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
 
 .search-box button{
     position: absolute;
