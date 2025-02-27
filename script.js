@@ -1,18 +1,20 @@
 import "./modules/dom.js";
-import { fetchWeather } from "./modules/weather.js";
+import { fetchWeatherByCoords } from "./modules/weather.js"; 
 import "./modules/audio.js";
 import "./modules/search.js";
 
-// Attach event listener to search button
-document.querySelector(".search-box button").addEventListener("click", () => {
-    fetchWeather(document.getElementById("search-btn").value);
-});
-
-// Trigger search when pressing "Enter"
-document.getElementById("search-btn").addEventListener("keypress", (event) => {
-    if (event.key === "Enter") {
-        fetchWeather(event.target.value);
+document.addEventListener("DOMContentLoaded", () => {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                fetchWeatherByCoords(latitude, longitude);
+            },
+            (error) => {
+                console.warn("Location access denied. Using manual search.");
+            }
+        );
+    } else {
+        console.warn("Geolocation is not supported by this browser.");
     }
 });
-
-console.log("hlo")
