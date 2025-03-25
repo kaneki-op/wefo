@@ -18,7 +18,12 @@ function fetchWeatherData(query, cityName) {
     error404.style.display = "none";
 
     fetch(`https://api.openweathermap.org/data/2.5/weather?${query}&units=metric&appid=${APIKey}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`API Error: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        })
         .then(json => {
             loadingText.style.display = "none";
 
@@ -45,6 +50,11 @@ function fetchWeatherData(query, cityName) {
 
             weatherBox.style.display = "block";
             weatherDetails.style.display = "flex";
+        })
+        .catch(error => {
+            loadingText.style.display = "none";
+            error404.style.display = "block";
+            console.error("Failed to fetch weather data:", error);
         });
 }
 
