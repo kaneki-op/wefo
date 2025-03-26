@@ -71,24 +71,60 @@ body{
 /* Start with a small container */
 .container {
     position: relative;
-    width: 400px;
-    min-height: 80px; /* Small initially */
+    width: 90%;
+    max-width: 400px; /* Ensures it doesn’t stretch too much */
+    min-height: 80px; /* Starts small */
     background: rgba(245, 245, 245, 0.1);
     backdrop-filter: blur(20px);
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 16px;
     padding: 20px;
     color: #fff;
-    transition: all 0.6s ease-in-out; /* Smooth transition */
+    transition: all 0.6s ease-in-out;
     margin-top: 80px;
-    overflow: visible; /* Prevent layout breaking */
+    overflow: visible; /* Prevents elements from overflowing */
     z-index: 10;
 }
 
 /* Expands when weather details are loaded */
 .container.expanded {
     min-height: 450px;
-    width: 450px;
+    max-height: 500px; /* Limits the expansion to avoid overflow */
+    max-width: 90%;
+}
+
+/* Make sure it adapts well to mobile screens */
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+        max-width: 350px;
+    }
+
+    .container.expanded {
+        min-height: 400px;
+        max-height: 500px; /* Prevents it from overflowing the screen */
+    }
+
+    .weather-box img {
+        max-width: 80px; /* Prevents image from being too large */
+    }
+
+    .weather-box .temperature {
+        font-size: 40px; /* Reduces size for smaller screens */
+    }
+
+    .weather-details {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-bottom: 15px;
+    }
+
+    .weather-details .humidity,
+    .weather-details .wind {
+        width: 100%;
+        justify-content: center;
+    }
 }
 
 /* Hide weather details initially */
@@ -137,20 +173,6 @@ body{
         width: 550px;
     }
 }
-
-@media (min-width: 1024px) {
-    .container {
-        width: 600px;
-    }
-    .container.expanded {
-        width: 650px;
-    }
-}
-
-
-
-  
-
 
 .search-box{
     position: relative;
@@ -214,10 +236,10 @@ body{
   
 .autocomplete-results {
     position: absolute;
-    top: calc(100% + 5px); /* Place below input */
+    top: calc(100% + 5px);
     left: 0;
     width: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.95);
     color: white;
     list-style: none;
     padding: 5px 0;
@@ -225,10 +247,18 @@ body{
     border-radius: 8px;
     max-height: 200px;
     overflow-y: auto;
-    z-index: 1000;
+    z-index: 9999 !important; /* Forces dropdown to be on top */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    display: none; /* Hide by default */
+    display: none;
 }
+
+
+/* Ensure it's always above other elements */
+.search-box {
+    position: relative;
+    z-index: 9998; /* Just below the autocomplete dropdown */
+}
+
 
 /* Show dropdown only when it has items */
 .autocomplete-results.show {
@@ -330,46 +360,17 @@ body{
     font-size: 22px;
     font-weight: 500;
 }
-@media (max-width: 480px) {
-    .weather-box {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 10px; /* Add spacing between elements */
-    }
 
-    .weather-box img {
-        width: 80px; /* Reduce icon size */
-    }
-
-    .weather-box .temperature {
-        font-size: 48px;
-        margin: 10px 0; /* Space out text */
-    }
-
-    .weather-box .description {
-        font-size: 18px;
-    }
-
-    .weather-details {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding-bottom: 15px;
-        gap: 15px; /* Ensure details do not overlap */
-    }
-}
-
-
-.weather-details{
-    position: absolute;
-    bottom: 40px;
-    left: 0;
+.weather-details {
+    position: relative; /* Change from absolute to relative */
+    bottom: unset; /* Remove fixed positioning */
     width: 100%;
-    padding: 0 20px;
+    padding: 10px 20px;
     display: flex;
+    flex-wrap: wrap; /* Allows wrapping in small screens */
+    justify-content: space-between;
 }
+
 
 .weather-details .humidity,
 .weather-details .wind{
@@ -409,19 +410,51 @@ body{
     font-size: 14px;
     font-weight: 500;
 }
+
+.weather-box, .weather-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
 @media (max-width: 480px) {
     .weather-details {
-        flex-direction: column; /* Stack vertically */
+        display: flex;
+        flex-direction: row; /* Ensures left-right layout */
+        justify-content: space-between; /* Keeps elements at left and right */
         align-items: center;
-        text-align: center;
+        width: 100%;
+        padding: 10px 20px; /* Ensures spacing */
     }
 
     .weather-details .humidity,
     .weather-details .wind {
-        width: 100%;
-        justify-content: center;
+        display: flex;
+        flex-direction: column; /* Moves icon above text */
+        align-items: center;
+        width: 45%; /* Keeps both items evenly spaced */
+        text-align: center;
+    }
+
+    .weather-details i {
+        font-size: 40px; /* Adjust icon size */
+        margin-bottom: 5px; /* Space between icon and text */
+    }
+
+    .weather-details span {
+        font-size: 16px; /* Reduce text size slightly */
+        font-weight: 500;
+    }
+
+    .weather-details p {
+        font-size: 15px; /* Reduce description text size */
+        font-weight: 400;
+        margin-top: -2px; /* Adjust minor spacing */
     }
 }
+
 
 
   
