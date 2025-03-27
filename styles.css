@@ -15,6 +15,7 @@ body{
     background-image: url(images/weather.jpg);
     background-size:cover;
     background-position: center;    
+    overflow-x: hidden;
 }
 
 .header {
@@ -69,69 +70,37 @@ body{
 
 
 /* Start with a small container */
-.container {
+.container{
     position: relative;
-    width: 90%;
-    max-width: 400px; /* Ensures it doesn’t stretch too much */
-    min-height: 80px; /* Starts small */
-    background: rgba(245, 245, 245, 0.1);
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    width: 400px;
+    height: 100px;
+    background: rgb(245,245,245,0.1);
+    backdrop-filter: blur(30px);
+    border: 2px solid rgba(255,255,255,.2);
     border-radius: 16px;
     padding: 20px;
     color: #fff;
-    transition: all 0.6s ease-in-out;
+    transition: height 1s ease;
     margin-top: 80px;
-    overflow: visible; /* Prevents elements from overflowing */
-    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
-/* Expands when weather details are loaded */
 .container.expanded {
-    min-height: 450px;
-    max-height: 500px; /* Limits the expansion to avoid overflow */
-    max-width: 90%;
+    min-height: 460px !important;
+    width: 500px;
+    transition: min-height 0.6s ease-in-out; /* Allow content to be visible when expanded */
 }
 
 /* Make sure it adapts well to mobile screens */
-@media (max-width: 480px) {
-    .container {
-        width: 95%;
-        max-width: 350px;
-    }
 
-    .container.expanded {
-        min-height: 400px;
-        max-height: 500px; /* Prevents it from overflowing the screen */
-    }
-
-    .weather-box img {
-        max-width: 80px; /* Prevents image from being too large */
-    }
-
-    .weather-box .temperature {
-        font-size: 40px; /* Reduces size for smaller screens */
-    }
-
-    .weather-details {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding-bottom: 15px;
-    }
-
-    .weather-details .humidity,
-    .weather-details .wind {
-        width: 100%;
-        justify-content: center;
-    }
-}
 
 /* Hide weather details initially */
 .weather-box,
 .weather-details,
 .not-found {
-    display: none;
+    display:none;
 }
 
 /* Show weather details after search */
@@ -164,16 +133,6 @@ body{
     75% { content: "Loading..."; }
 }
 
-/* Make website responsive */
-@media (min-width: 768px) {
-    .container {
-        width: 500px;
-    }
-    .container.expanded {
-        width: 550px;
-    }
-}
-
 .search-box{
     position: relative;
     width: 100%;
@@ -181,6 +140,7 @@ body{
     display: flex;
     align-items: center;
     z-index: 100;
+    margin: 0;
 }
 .search-box i{
     position: absolute;
@@ -192,7 +152,7 @@ body{
 .search-box input{
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 55px;
     background: transparent;
     border: 2px solid rgba(255,255,255,.2);
     outline: none ;
@@ -250,13 +210,6 @@ body{
     z-index: 9999 !important; /* Forces dropdown to be on top */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     display: none;
-}
-
-
-/* Ensure it's always above other elements */
-.search-box {
-    position: relative;
-    z-index: 9998; /* Just below the autocomplete dropdown */
 }
 
 
@@ -329,29 +282,19 @@ body{
     transition-delay: .6s;
 }
 
-.weather-box img {
-    width: 100px; /* Adjust width */
-    height: auto; /* Maintain aspect ratio */
-    max-width: 50%; /* Prevent stretching */
-    display: block;
-    margin: 10px auto; /* Center image */
-}
-
-.weather .weather-icon {
-    width: 80px;
-    height: 80px;
-    margin-left: 10px;
+.weather-box img{
+    width: 40%;
 }
 .weather-box .temperature{
     position: relative;
-    font-size: 64px;
+    font-size: 60px;
     line-height: 1;
     font-weight: 700;
     margin: 20px 0 6px -30px;
 }
 .weather-box .temperature span{
     position: absolute;
-    font-size: 24px;
+    font-size: 22px;
     margin-left: 4px;
 }
 
@@ -359,18 +302,18 @@ body{
     position: relative;
     font-size: 22px;
     font-weight: 500;
+    margin-top: -12px;
+    margin-right: 20px;
 }
 
-.weather-details {
-    position: relative; /* Change from absolute to relative */
-    bottom: unset; /* Remove fixed positioning */
+.weather-details{
+    position: absolute;
+    bottom: 15px;
+    left: 0;
     width: 100%;
-    padding: 10px 20px;
+    padding: 0 20px;
     display: flex;
-    flex-wrap: wrap; /* Allows wrapping in small screens */
-    justify-content: space-between;
 }
-
 
 .weather-details .humidity,
 .weather-details .wind{
@@ -409,14 +352,6 @@ body{
 .weather-details p{
     font-size: 14px;
     font-weight: 500;
-}
-
-.weather-box, .weather-details {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
 }
 
 @media (max-width: 480px) {
@@ -488,7 +423,7 @@ body{
     align-items: center;
     justify-content: center;
     width: 100%;
-    position: absolute;
+    position: relative;
     bottom: 10px; /* Positions it at the bottom */
     left: 0;
     background: transparent; /* Fully transparent */
@@ -537,5 +472,68 @@ body{
 
     .container.expanded {
         min-height: 400px; /* Expand only when weather details load */
+        width: 90%;
     }
+}
+
+/* styles.css */
+@media (min-width: 768px) {
+    .container:not(.expanded) {
+        height: 100px !important; /* Force desktop height */
+        transition: height 0.3s ease-in-out;
+    }
+}
+@media (max-width: 768px) {
+    .container:not(.expanded) {
+        height: 100px !important; /* Force desktop height */
+        transition: height 0.3s ease-in-out;
+    }
+}
+
+.five-day-forecast {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 80px;
+}
+
+.forecast-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    overflow:hidden; /* Scrollable if needed */
+    padding: 10px;
+    opacity: 0;
+    transform: translateY(20px); /* Subtle shift down */
+    transition: opacity 1s ease-in-out, transform 2s ease-in-out;
+}
+
+.five-day-forecast:hover .forecast-container {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.forecast-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    width: 20%; /* Adjust width to fit five cards in a row */
+    min-width: 120px;
+    transition: transform 2s ease-in-out;
+    opacity: 0;
+}
+
+.forecast-card:nth-child(1) { transform: translateX(-100vw); }
+.forecast-card:nth-child(2) { transform: translateX(-50vw); }
+.forecast-card:nth-child(3) { transform: translateY(100vh); }
+.forecast-card:nth-child(4) { transform: translateX(50vw); }
+.forecast-card:nth-child(5) { transform: translateX(100vw); }
+
+.five-day-forecast:hover .forecast-card {
+    opacity: 1;
+    transform: translateX(0) translateY(0);
+}
+.forecast-card img {
+    width: 50px;
+    height: 50px;
 }
