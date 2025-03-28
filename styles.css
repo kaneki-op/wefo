@@ -515,6 +515,7 @@ body{
 
 .forecast-card {
     background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255,255,255,.2);
     padding: 15px;
     border-radius: 10px;
     text-align: center;
