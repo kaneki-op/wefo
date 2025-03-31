@@ -73,7 +73,7 @@ body{
 .container{
     position: relative;
     width: 400px;
-    height: 100px;
+    min-height: 100px;
     background: rgb(245,245,245,0.1);
     backdrop-filter: blur(30px);
     border: 2px solid rgba(255,255,255,.2);
@@ -84,7 +84,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    transition: height 1s linear;
+    transition: all 1s ease;
 }
 
 .container.expanded {
@@ -476,7 +476,7 @@ body{
         width: 90%;
         min-height: 80px; /* Start very small */
         max-height: 100px; /* Prevent overflow */
-        transition: all 0.4s ease-in-out;
+        transition: all 0.6s ease;
     }
 
     .container.expanded {

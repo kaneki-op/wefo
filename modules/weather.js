@@ -58,7 +58,6 @@ function fetchWeatherData(query, cityName) {
             })
             .catch(error => {
                 container.classList.remove("expanded");
-                container.style.height = "55px"; // Force reset height
                 loadingText.style.display = "none";
                 error404.style.display = "block";
                 console.error("Failed to fetch weather data:", error);
