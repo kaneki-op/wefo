@@ -18,47 +18,52 @@ function fetchWeatherData(query, cityName) {
     weatherDetails.style.display = "none";
     error404.style.display = "none";
 
-    fetch(`https://api.openweathermap.org/data/2.5/weather?${query}&units=metric&appid=${APIKey}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`API Error: ${response.status} ${response.statusText}`);
-            }
-            return response.json();
-        })
-        .then(json => {
-            loadingText.style.display = "none";
+    // Expand the container first
+    container.classList.add("expanded");
 
-            if (json.cod === "404") {
+    // Use a timeout to delay the content loading
+    setTimeout(() => {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?${query}&units=metric&appid=${APIKey}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(json => {
+                loadingText.style.display = "none";
+
+                if (json.cod === "404") {
+                    error404.style.display = "block";
+                    return;
+                }
+
+                weatherBox.classList.add("active");
+                weatherDetails.classList.add("active");
+                error404.style.display = "none";
+
+                // Update city name if fetched by coordinates
+                if (!cityName && json.name) {
+                    searchInput.value = json.name;
+                }
+
+                document.querySelector(".weather-box img").src = getWeatherIcon(json.weather[0].main);
+                document.querySelector(".weather-box .temperature").innerHTML = `${parseInt(json.main.temp)}<span>°C</span>`;
+                document.querySelector(".weather-box .description").innerHTML = json.weather[0].description;
+                document.querySelector(".weather-details .humidity span").innerHTML = `${json.main.humidity}%`;
+                document.querySelector(".weather-details .wind span").innerHTML = `${parseInt(json.wind.speed)}Km/h`;
+
+                weatherBox.style.display = "block";
+                weatherDetails.style.display = "flex";
+            })
+            .catch(error => {
+                container.classList.remove("expanded");
+                container.style.height = "55px"; // Force reset height
+                loadingText.style.display = "none";
                 error404.style.display = "block";
-                return;
-            }
-
-            container.classList.add("expanded");
-            weatherBox.classList.add("active");
-            weatherDetails.classList.add("active");
-            error404.style.display = "none";
-
-            // Update city name if fetched by coordinates
-            if (!cityName && json.name) {
-                searchInput.value = json.name;
-            }
-
-            document.querySelector(".weather-box img").src = getWeatherIcon(json.weather[0].main);
-            document.querySelector(".weather-box .temperature").innerHTML = `${parseInt(json.main.temp)}<span>°C</span>`;
-            document.querySelector(".weather-box .description").innerHTML = json.weather[0].description;
-            document.querySelector(".weather-details .humidity span").innerHTML = `${json.main.humidity}%`;
-            document.querySelector(".weather-details .wind span").innerHTML = `${parseInt(json.wind.speed)}Km/h`;
-
-            weatherBox.style.display = "block";
-            weatherDetails.style.display = "flex";
-        })
-        .catch(error => {
-            container.classList.remove("expanded"); // Add this
-            container.style.height = "55px"; // Force reset height
-            loadingText.style.display = "none";
-            error404.style.display = "block";
-            console.error("Failed to fetch weather data:", error);
-        });
+                console.error("Failed to fetch weather data:", error);
+            });
+    }, 300); // Adjust the timeout duration as needed
 }
 
 function getWeatherIcon(weather) {

@@ -38,6 +38,8 @@ function getCitySuggestions(query) {
             searchResults.style.display = "block";
         })
         .catch(() => searchResults.style.display = "none");
+
+    
 }
 
 // Show dropdown when typing
