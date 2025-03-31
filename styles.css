@@ -499,10 +499,32 @@ body{
     }
 }
 
+    
+
 .five-day-forecast {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 80px;
+}
+
+#five-title {
+    font-size: 36px; /* Adjust font size as needed */
+    font-weight: 600; /* Bold text */
+    color: rgba(255, 165, 0, 0.9); /* Orange color with opacity */
+    position: relative; /* Position for the underline effect */
+    text-align: center; /* Center align the title */
+    margin: 20px 0; /* Add margin for spacing */
+}
+
+/* Underline effect with rounded ends */
+#five-title::after {
+    content: ""; /* Empty content for the underline */
+    display: block; /* Make it a block element */
+    width: 150px; /* Adjust width of the underline */
+    height: 6px; /* Height of the underline */
+    background: rgba(0, 255, 255, 0.8); /* Underline color with opacity */
+    margin: auto; /* Center the underline */
+    border-radius: 4px; /* Rounded ends for the underline */
 }
 
 .forecast-container {
