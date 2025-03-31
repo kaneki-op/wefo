@@ -530,7 +530,7 @@ body{
 .forecast-container {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
+    gap: 40px;
     overflow:hidden; /* Scrollable if needed */
     padding: 10px;
     opacity: 0;
@@ -544,15 +544,38 @@ body{
 }
 
 .forecast-card {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgb(245,245,245,0.1);
+    backdrop-filter: blur(30px);
     border: 2px solid rgba(255,255,255,.2);
+    border-radius: 20px;
     padding: 15px;
-    border-radius: 10px;
     text-align: center;
-    width: 20%; /* Adjust width to fit five cards in a row */
+    width: 40%; /* Adjust width to fit five cards in a row */
     min-width: 120px;
-    transition: transform 2s ease-in-out;
-    opacity: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    transition: all 1s ease;
+}
+
+/* Hover effect for cards */
+.forecast-card:hover {
+    width: 50%;
+    transform: translateY(10px); /* Scale up and move up effect on hover */
+    border-color: rgba(0, 255, 255, 0.8); /* Change border color on hover */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
+}
+
+/* Additional styling for images */
+.forecast-card img {
+    width: 60px; /* Adjust image size */
+    height: 60px; /* Adjust image size */
+    margin-bottom: 10px; /* Space between image and text */
+}
+
+/* Styling for temperature and description */
+.forecast-card p {
+    margin: 5px 0; /* Space between paragraphs */
+    color: rgba(0, 0, 0, 0.9); /* Dark text color for better visibility */
 }
 
 .forecast-card:nth-child(1) { transform: translateX(-100vw); }
