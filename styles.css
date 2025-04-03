@@ -613,3 +613,59 @@ body{
     height: 50px;
 }
 
+@media (max-width: 480px) {
+    /* Adjust forecast container for mobile */
+    .forecast-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
+      gap: 10px; /* Reduce spacing between cards */
+      padding: 5px; /* Reduce padding */
+      overflow: visible; /* Allow vertical overflow */
+    }
+  
+    /* Resize cards for mobile */
+    .forecast-card {
+      width: 100%; /* Full width of grid cell */
+      min-width: auto; /* Remove fixed min-width */
+      padding: 10px; /* Smaller padding */
+    }
+  
+    /* Reduce title font size */
+    #five-title {
+      font-size: 24px;
+      margin: 10px 0;
+    }
+  
+    /* Adjust card content spacing */
+    .forecast-card p {
+      font-size: 14px; /* Smaller text */
+      margin: 3px 0;
+    }
+  
+    /* Shrink weather icons */
+    .forecast-card img {
+      width: 40px;
+      height: 40px;
+    }
+  
+    /* Fix hover effect for mobile */
+    .forecast-card:hover {
+      width: 100%; /* Disable desktop hover effect */
+      transform: none; /* Remove translateY */
+    }
+  }
+  @media (max-width: 480px) {
+    /* First 3 cards in top row */
+    .forecast-card:nth-child(-n+3) {
+      grid-row: 1;
+    }
+  
+    /* Last 2 cards in bottom row */
+    .forecast-card:nth-child(n+4) {
+      grid-row: 2;
+    }
+    .five-day-forecast {
+        margin-bottom: 20px; /* Reduce bottom margin */
+        padding: 0 10px; /* Add side padding */
+      }
+  }
