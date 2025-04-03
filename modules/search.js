@@ -1,11 +1,10 @@
-import { searchInput } from "./dom.js";
+import { container, searchInput } from "./dom.js";
 import { fetchWeather } from "./weather.js";
 
 const APIKey = "e58b94c4d9196f57fb7b743de5e682a8";
 const searchResults = document.createElement("ul");
 searchResults.classList.add("autocomplete-results");
 document.querySelector(".search-box").appendChild(searchResults);
-
 
 // Fetch city suggestions
 function getCitySuggestions(query) {
@@ -21,6 +20,7 @@ function getCitySuggestions(query) {
             searchResults.innerHTML = "";
             if (data.length === 0) {
                 searchResults.style.display = "none";
+                container.style.minHeight = "";
                 return;
             }
 
@@ -37,6 +37,11 @@ function getCitySuggestions(query) {
             });
 
             searchResults.style.display = "block";
+            setTimeout(() => {
+                const searchBoxHeight = document.querySelector('.search-box').offsetHeight;
+                const dropdownHeight = searchResults.offsetHeight;
+                container.style.minHeight = `${searchBoxHeight + dropdownHeight + 20}px`; // Add padding
+            }, 0);
         })
         .catch(() => searchResults.style.display = "none");
 
@@ -50,5 +55,6 @@ searchInput.addEventListener("input", () => getCitySuggestions(searchInput.value
 document.addEventListener("click", (event) => {
     if (!document.querySelector(".search-box").contains(event.target)) {
         searchResults.style.display = "none";
+        container.style.minHeight = ""; // Reset height
     }
 });

@@ -84,7 +84,10 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    transition: all 1s ease;
+    overflow-y: visible;
+    transition: 
+        width 1s ease,
+        min-height 1s ease-out; /* Explicitly list properties */  
 }
 
 .container.expanded {
@@ -138,7 +141,7 @@ body{
     height: 55px;
     display: flex;
     align-items: center;
-    z-index: 100;
+    z-index: 10;
     margin: 0;
 }
 .search-box i{
@@ -195,7 +198,7 @@ body{
   
 .autocomplete-results {
     position: absolute;
-    top: calc(100% + 5px);
+    top: 100%;
     left: 0;
     width: 100%;
     background: rgba(0, 0, 0, 0.95);
@@ -206,7 +209,7 @@ body{
     border-radius: 8px;
     max-height: 200px;
     overflow-y: auto;
-    z-index: 9999 !important; /* Forces dropdown to be on top */
+    z-index: 100; /* Forces dropdown to be on top */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     display: none;
 }
@@ -490,7 +493,9 @@ body{
         width: 90%;
         min-height: 80px; /* Start very small */
         max-height: 100px; /* Prevent overflow */
-        transition: all 0.6s ease;
+        transition: 
+            width 0.6s ease,
+            min-height 0.3s ease-out; /* Match the general transition */
     }
 
     .container.expanded {
@@ -519,6 +524,7 @@ body{
     text-align: center;
     margin-top: 20px;
     margin-bottom: 80px;
+    transition: margin-top 0.3s ease-in-out;
 }
 
 #five-title {
