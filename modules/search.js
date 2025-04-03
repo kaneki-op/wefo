@@ -6,6 +6,7 @@ const searchResults = document.createElement("ul");
 searchResults.classList.add("autocomplete-results");
 document.querySelector(".search-box").appendChild(searchResults);
 
+
 // Fetch city suggestions
 function getCitySuggestions(query) {
     if (query.length < 2) {

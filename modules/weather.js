@@ -10,6 +10,7 @@ export function fetchWeather(city) {
 
 export function fetchWeatherByCoords(lat, lon) {
     fetchWeatherData(`lat=${lat}&lon=${lon}`, null);
+    fetchFiveDayForecastByCoords(lat, lon);
 }
 
 function fetchWeatherData(query, cityName) {
@@ -85,6 +86,39 @@ export function fetchFiveDayForecast(city) {
             forecastContainer.innerHTML = ""; // Clear previous data
 
             const dailyData = data.list.filter(item => item.dt_txt.includes("12:00:00")); // Get mid-day data for 5 days
+
+            dailyData.forEach(day => {
+                const forecastCard = document.createElement("div");
+                forecastCard.classList.add("forecast-card");
+
+                forecastCard.innerHTML = `
+                    <p>${new Date(day.dt_txt).toLocaleDateString()}</p>
+                    <img src="${getWeatherIcon(day.weather[0].main)}" alt="Weather icon">
+                    <p>${parseInt(day.main.temp)}°C</p>
+                    <p>${day.weather[0].description}</p>
+                    <p>Humidity: ${day.main.humidity}%</p>
+                    <p>Wind: ${parseInt(day.wind.speed)}Km/h</p>
+                `;
+
+                forecastContainer.appendChild(forecastCard);
+            });
+        })
+        .catch(error => console.error("Failed to fetch forecast:", error));
+}
+
+export function fetchFiveDayForecastByCoords(lat, lon) {
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${APIKey}`)
+        .then(response => response.json())
+        .then(data => {
+            const forecastContainer = document.querySelector(".forecast-container");
+            forecastContainer.innerHTML = ""; // Clear previous data
+
+            if (!data.list || data.list.length === 0) {
+                console.error("No forecast data available.");
+                return;
+            }
+
+            const dailyData = data.list.filter(item => item.dt_txt.includes("12:00:00"));
 
             dailyData.forEach(day => {
                 const forecastCard = document.createElement("div");
