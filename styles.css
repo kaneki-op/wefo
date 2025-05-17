@@ -415,8 +415,17 @@ body{
     }
 }
 
+.instant-error {
+    position: relative !important;
+    width: 100% !important;
+    text-align: center !important;
+    animation: errorFade 0.5s ease-in-out;
+}
 
-
+@keyframes errorFade {
+    0% { opacity: 0; transform: translateY(-10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
   
 .not-found{
     position: absolute;

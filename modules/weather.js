@@ -58,9 +58,31 @@ function fetchWeatherData(query, cityName) {
                 weatherDetails.style.display = "flex";
             })
             .catch(error => {
-                container.classList.remove("expanded");
+                container.classList.add("expanded");
                 loadingText.style.display = "none";
-                error404.style.display = "block";
+                 weatherBox.style.display = "none";
+                weatherDetails.style.display = "none";
+            
+                // Create temporary error message element
+                const errorElement = document.createElement('div');
+                errorElement.className = 'instant-error';
+                errorElement.innerHTML = `
+                <p style="color: #ff4444; font-size: 22px; margin: 20px 0;">
+                    <i class='bx bx-error-alt'></i>
+                    Weather data unavailable for this location
+                </p>
+                `;
+            
+                // Insert error message below search box
+                container.insertBefore(errorElement, container.children[1]);
+                
+                // Auto-remove after 5 seconds
+                setTimeout(() => {
+                    errorElement.remove();
+                    // Reset container size after removing error message
+                    container.classList.remove("expanded");
+                }, 5000); // Same 5 second timeout
+            
                 console.error("Failed to fetch weather data:", error);
             });
     }, 300); // Adjust the timeout duration as needed
